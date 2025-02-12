@@ -1,6 +1,6 @@
 import random
 
-class RandomAI:
+class RandomAgent:
     def __init__(self, piece):
         self.piece = piece
 

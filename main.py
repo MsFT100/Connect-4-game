@@ -2,8 +2,8 @@ import pygame
 
 from bots.minimax_agent import MiniMaxAI
 from bots.ml_agent import MLAgent
-from bots.random_agent import RandomAI
-from bots.smart_agent import SmartAI
+from bots.random_agent import RandomAgent
+from bots.smart_agent import SmartAgent
 from connect_4_game import Connect4Game
 from bots.human_player import HumanPlayer
 
@@ -175,25 +175,25 @@ if __name__ == "__main__":
         player2 = HumanPlayer('○')
     elif mode == 2:
         player1 = HumanPlayer('●')
-        player2 = RandomAI('○')
+        player2 = RandomAgent('○')
     elif mode == 3:
         player1 = HumanPlayer('●')
-        player2 = SmartAI('○')
+        player2 = SmartAgent('○')
     elif mode == 4:
-        player1 = RandomAI('●')
-        player2 = SmartAI('○')
+        player1 = RandomAgent('●')
+        player2 = SmartAgent('○')
     elif mode == 5:
-        player1 = SmartAI('●')
-        player2 = SmartAI('○')
+        player1 = SmartAgent('●')
+        player2 = SmartAgent('○')
     elif mode == 6:
         player1 = MiniMaxAI('●')
         player2 = HumanPlayer('○')
     elif mode == 7:
         player1 = MiniMaxAI('●')
-        player2 = RandomAI('○')
+        player2 = RandomAgent('○')
     elif mode == 8:
         player1 = MiniMaxAI('●')
-        player2 = SmartAI('○')
+        player2 = SmartAgent('○')
     elif mode == 9:
         player1 = MiniMaxAI('●')
         player2 = MiniMaxAI('○')

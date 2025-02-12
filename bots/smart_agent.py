@@ -1,7 +1,7 @@
 import random
 from connect_4_game import Connect4Game
 
-class SmartAI:
+class SmartAgent:
     def __init__(self, piece):
         self.piece = piece  # '●' for Player 1, '○' for Player 2
 

@@ -3,7 +3,7 @@ import math
 from connect_4_game import Connect4Game
 
 class MiniMaxAI:
-    def __init__(self, piece, depth=5):
+    def __init__(self, piece, depth=6):
         self.piece = piece  # '●' or '○'
         self.depth = depth
         self.opponent_piece = '●' if piece == '○' else '○'

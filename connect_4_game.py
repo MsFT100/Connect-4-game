@@ -37,6 +37,7 @@ class Connect4Game:
 
     def drop_piece(self, col, piece=None):
         """Places a piece in the given column and checks for a win."""
+        #print(f"drop_piece called with col: {col}")
         if self.game_over:
             return False  # No more moves allowed
 
