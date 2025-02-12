@@ -1,0 +1,22 @@
+if __name__ == "__main__":
+    smart_wins = 0
+    random_wins = 0
+    num_games = 500
+
+    for _ in range(num_games):
+        game = Connect4Game()
+        smart_ai = SmartAI('●')
+        random_ai = RandomAI('○')
+
+        while not game.game_over:
+            current_player = smart_ai if game.turn == 0 else random_ai
+            col = current_player.get_move(game)
+            game.drop_piece(col)
+
+        winner = game.check_winner()
+        if winner == '●':
+            smart_wins += 1
+        elif winner == '○':
+            random_wins += 1
+
+    print(f"Smart AI Wins: {smart_wins} | Random AI Wins: {random_wins}")
