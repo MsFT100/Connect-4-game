@@ -1,4 +1,5 @@
 import numpy as np
+
 # Game Constants
 ROWS, COLS = 6, 7
 SQUARESIZE = 80
@@ -10,6 +11,18 @@ class Connect4Game:
         self.turn = 0  # 0 for Player 1 (Red), 1 for Player 2 (Yellow)
         self.game_over = False
 
+    def get_valid_columns(self):
+        """Returns a list of columns that are not full."""
+        return [c for c in range(COLS) if self.board[0][c] == ' ']
+
+    def copy(self):
+        """Creates a deep copy of the game state for simulation purposes."""
+        new_game = Connect4Game()
+        new_game.board = np.copy(self.board)
+        new_game.turn = self.turn
+        new_game.game_over = self.game_over
+        return new_game
+
     def get_lowest_empty_row(self, col):
         """Returns the lowest available row in a column."""
         for r in range(ROWS-1, -1, -1):
@@ -17,14 +30,14 @@ class Connect4Game:
                 return r
         return None  # Column full
 
-    def drop_piece(self, col):
+    def drop_piece(self, col, piece=None):
         """Places a piece in the given column and checks for a win."""
         if self.game_over:
             return False  # No more moves allowed
 
         row = self.get_lowest_empty_row(col)
         if row is not None:
-            piece = '●' if self.turn == 0 else '○'
+            piece = piece if piece else ('●' if self.turn == 0 else '○')
             self.board[row][col] = piece
             if self.check_winner(row, col, piece):
                 self.game_over = True
@@ -40,6 +53,19 @@ class Connect4Game:
                 self.check_direction(row, col, piece, 0, 1) or  # Horizontal
                 self.check_direction(row, col, piece, 1, 1) or  # Diagonal /
                 self.check_direction(row, col, piece, 1, -1))   # Diagonal \
+
+    def check_winner_piece(self, piece):
+        """Checks if a given piece has won the game."""
+        for r in range(ROWS):
+            for c in range(COLS):
+                if self.board[r][c] == piece:
+                    if (self.check_direction(r, c, piece, 1, 0) or  # Vertical
+                            self.check_direction(r, c, piece, 0, 1) or  # Horizontal
+                            self.check_direction(r, c, piece, 1, 1) or  # Diagonal /
+                            self.check_direction(r, c, piece, 1, -1)):  # Diagonal \
+                        return True
+        return False
+
 
     def check_direction(self, row, col, piece, dr, dc):
         """Checks 4 in a row in a given direction."""

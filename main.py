@@ -1,7 +1,8 @@
 import pygame
 
-
+from bots.minimax_agent import MiniMaxAI
 from bots.random_agent import RandomAI
+from bots.smart_agent import SmartAI
 from connect_4_game import Connect4Game
 from bots.human_player import HumanPlayer
 
@@ -117,11 +118,21 @@ class Connect4GUI:
 
 def show_selection_screen():
     pygame.init()
-    screen = pygame.display.set_mode((500, 400))
+    screen = pygame.display.set_mode((500, 500))
     pygame.display.set_caption("Select Game Mode")
 
-    font = pygame.font.Font(None, 36)
-    options = ["1. Human vs Human", "2. Human vs AI", "3. AI vs AI"]
+    font = pygame.font.Font(None, 24)
+    options = [
+        "1. Human vs Human",
+        "2. Human vs Random AI",
+        "3. Human vs Smart AI",
+        "4. Random AI vs Smart AI",
+        "5. Smart AI vs Smart AI",
+        "6. Minimax AI vs Human",
+        "7. Minimax AI vs Random AI",
+        "8. Minimax AI vs Smart AI",
+        "9. Minimax AI vs Minimax AI"
+    ]
 
     selected = None
     while selected is None:
@@ -130,7 +141,7 @@ def show_selection_screen():
         for i, text in enumerate(options):
             color = WHITE
             text_surface = font.render(text, True, color)
-            screen.blit(text_surface, (100, 100 + i * 60))
+            screen.blit(text_surface, (50, 50 + i * 50))
 
         pygame.display.update()
 
@@ -145,6 +156,19 @@ def show_selection_screen():
                     selected = 2
                 elif event.key == pygame.K_3:
                     selected = 3
+                elif event.key == pygame.K_4:
+                    selected = 4
+                elif event.key == pygame.K_5:
+                    selected = 5
+                elif event.key == pygame.K_6:
+                    selected = 6
+                elif event.key == pygame.K_7:
+                    selected = 7
+                elif event.key == pygame.K_8:
+                    selected = 8
+                elif event.key == pygame.K_9:
+                    selected = 9
+
 
     return selected
 
@@ -157,9 +181,30 @@ if __name__ == "__main__":
     elif mode == 2:
         player1 = HumanPlayer('●')
         player2 = RandomAI('○')
-    else:
+    elif mode == 3:
+        player1 = HumanPlayer('●')
+        player2 = SmartAI('○')
+    elif mode == 4:
         player1 = RandomAI('●')
+        player2 = SmartAI('○')
+    elif mode == 5:
+        player1 = SmartAI('●')
+        player2 = SmartAI('○')
+    elif mode == 6:
+        player1 = MiniMaxAI('●')
+        player2 = HumanPlayer('○')
+    elif mode == 7:
+        player1 = MiniMaxAI('●')
         player2 = RandomAI('○')
+    elif mode == 8:
+        player1 = MiniMaxAI('●')
+        player2 = SmartAI('○')
+    elif mode == 9:
+        player1 = MiniMaxAI('●')
+        player2 = MiniMaxAI('○')
 
-    game_gui = Connect4GUI(player1, player2)
-    game_gui.run()
+
+game_gui = Connect4GUI(player1, player2)
+game_gui.run()
+
+

@@ -1,6 +1,5 @@
 import numpy as np
-import random
-import sys
+
 
 class Connect4:
     ROWS = 6
