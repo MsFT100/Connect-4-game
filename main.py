@@ -1,6 +1,7 @@
 import pygame
 
 from bots.minimax_agent import MiniMaxAI
+from bots.ml_agent import MLAgent
 from bots.random_agent import RandomAI
 from bots.smart_agent import SmartAI
 from connect_4_game import Connect4Game
@@ -14,7 +15,7 @@ WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
 BLUE = (0, 0, 255)
 HIGHLIGHT = (100, 100, 255)
-
+path = "ml_training/connect4_ml_agent.pkl"
 class Connect4GUI:
     def __init__(self, player1, player2):
         pygame.init()
@@ -116,12 +117,14 @@ class Connect4GUI:
             y_pos += 10
             pygame.time.delay(20)
 
+import pygame
+
 def show_selection_screen():
     pygame.init()
     screen = pygame.display.set_mode((500, 500))
     pygame.display.set_caption("Select Game Mode")
 
-    font = pygame.font.Font(None, 24)
+    font = pygame.font.Font(None, 30)  # Adjust font size
     options = [
         "1. Human vs Human",
         "2. Human vs Random AI",
@@ -131,17 +134,22 @@ def show_selection_screen():
         "6. Minimax AI vs Human",
         "7. Minimax AI vs Random AI",
         "8. Minimax AI vs Smart AI",
-        "9. Minimax AI vs Minimax AI"
+        "9. Minimax AI vs Minimax AI",
+        "10. Human vs ML Agent",
+        "11. ML Agent vs Minimax AI"
     ]
 
-    selected = None
-    while selected is None:
+    selected_index = 0  # Track highlighted option
+    BLACK, WHITE, YELLOW = (0, 0, 0), (255, 255, 255), (255, 255, 0)
+
+    while True:
         screen.fill(BLACK)
 
         for i, text in enumerate(options):
-            color = WHITE
+            # Highlight selected option in yellow
+            color = YELLOW if i == selected_index else WHITE
             text_surface = font.render(text, True, color)
-            screen.blit(text_surface, (50, 50 + i * 50))
+            screen.blit(text_surface, (50, 50 + i * 40))
 
         pygame.display.update()
 
@@ -149,28 +157,15 @@ def show_selection_screen():
             if event.type == pygame.QUIT:
                 pygame.quit()
                 exit()
-            if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_1:
-                    selected = 1
-                elif event.key == pygame.K_2:
-                    selected = 2
-                elif event.key == pygame.K_3:
-                    selected = 3
-                elif event.key == pygame.K_4:
-                    selected = 4
-                elif event.key == pygame.K_5:
-                    selected = 5
-                elif event.key == pygame.K_6:
-                    selected = 6
-                elif event.key == pygame.K_7:
-                    selected = 7
-                elif event.key == pygame.K_8:
-                    selected = 8
-                elif event.key == pygame.K_9:
-                    selected = 9
 
+            elif event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_DOWN:  # Move down
+                    selected_index = (selected_index + 1) % len(options)
+                elif event.key == pygame.K_UP:  # Move up
+                    selected_index = (selected_index - 1) % len(options)
+                elif event.key == pygame.K_RETURN:  # Confirm selection
+                    return selected_index + 1  # Return selection (1-based index)
 
-    return selected
 
 if __name__ == "__main__":
     mode = show_selection_screen()
@@ -201,6 +196,12 @@ if __name__ == "__main__":
         player2 = SmartAI('○')
     elif mode == 9:
         player1 = MiniMaxAI('●')
+        player2 = MiniMaxAI('○')
+    elif mode == 10:
+        player1 = HumanPlayer('●')
+        player2 = MLAgent(path,'○')
+    elif mode == 11:
+        player1 = MLAgent(path,'●')
         player2 = MiniMaxAI('○')
 
 

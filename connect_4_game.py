@@ -11,6 +11,11 @@ class Connect4Game:
         self.turn = 0  # 0 for Player 1 (Red), 1 for Player 2 (Yellow)
         self.game_over = False
 
+    def get_board_state(self):
+        """Returns the board state as a numerical array."""
+        mapping = {' ': 0, '●': 1, '○': -1}  # Convert symbols to numbers
+        return np.vectorize(mapping.get)(self.board)  # Convert board to numbers
+
     def get_valid_columns(self):
         """Returns a list of columns that are not full."""
         return [c for c in range(COLS) if self.board[0][c] == ' ']
