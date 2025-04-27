@@ -16,7 +16,7 @@ class SmartAgent:
             row = temp_game.get_lowest_empty_row(col)
             if row is not None:
                 temp_game.board[row][col] = self.piece
-                if temp_game.check_winner(row, col, self.piece):  # ✅ Fix: Pass row, col, and piece
+                if temp_game.check_winner(row, col, self.piece):
                     return col  # Play winning move
 
         # Rule 2: Block opponent's win
@@ -25,7 +25,7 @@ class SmartAgent:
             row = temp_game.get_lowest_empty_row(col)
             if row is not None:
                 temp_game.board[row][col] = opponent_piece
-                if temp_game.check_winner(row, col, opponent_piece):  # ✅ Fix: Pass row, col, and piece
+                if temp_game.check_winner(row, col, opponent_piece):
                     return col  # Block opponent's win
 
         # Rule 3: Prioritize center column
@@ -38,7 +38,7 @@ class SmartAgent:
             if row is not None:
                 temp_game = game.copy()
                 temp_game.board[row][col] = self.piece  # Simulate move
-                if temp_game.check_winner(row, col, self.piece):  # ✅ Fix: Pass row, col, and piece
+                if temp_game.check_winner(row, col, self.piece):
                     return col
 
         # Rule 5: Pick a random valid move if no better option

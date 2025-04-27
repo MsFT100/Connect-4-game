@@ -11,12 +11,12 @@ column_names = [f"col_{i}" for i in range(42)] + ["outcome"]  # Ensure correct c
 
 df = pd.read_csv(url, names=column_names, dtype="category")
 
-# Map board values (fixing FutureWarning)
+# Map board values
 mapping = {'b': 0, 'x': 1, 'o': -1}
 for col in df.columns[:-1]:
     df[col] = df[col].astype(str).map(mapping).astype("int8")  # Convert to str before mapping
 
-# Map outcomes (fixing the error)
+# Map outcomes
 outcome_mapping = {'win': 1, 'loss': -1, 'draw': 0}
 df["outcome"] = df["outcome"].astype(str).map(outcome_mapping).astype("int8")  # Explicit mapping
 
